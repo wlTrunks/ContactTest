@@ -15,7 +15,7 @@ class ContactController implements Controller {
 
     private setRoutes() {
         this.router.get(`${this.path}/all`, this.getAllContact);
-        this.router.get(`${this.path}/getByName/:name`, this.getContactById);
+        this.router.get(`${this.path}/getByName/:name`, this.getContactByName);
         this.router.delete(`${this.path}/deleteById/:id`, this.deleteById);
         this.router.delete(`${this.path}/deleteAll`, this.deleteAll);
         this.router.delete(`${this.path}/deleteByName/:name`, this.deleteByName);
@@ -23,7 +23,7 @@ class ContactController implements Controller {
         this.router.post(`${this.path}/add`, this.addContact);
     }
 
-    getContactById = async (request: express.Request, response: express.Response) => {
+    getContactByName = async (request: express.Request, response: express.Response) => {
         response.json(await this.processor.getByName(request.params.name))
     }
 
