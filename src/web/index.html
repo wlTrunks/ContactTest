@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Contacts test</title>
+</head>
+<body>
+<div class="container" ng-controller="WebController">
+    <h1>Contacts</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input class="form-control" ng-model="contact.name"></td>
+            <td><input class="form-control" ng-model="contact.email"></td>
+            <td><input class="form-control" ng-model="contact.phone"></td>
+            <td>
+                <button class="btn btn-primary" ng-click="testLoad()">Load</button>
+            </td>
+        </tr>
+        <tr ng-repeat="contact in contactlist">
+            <td>{{contact.id}}</td>
+            <td>{{contact.name}}</td>
+            <td>{{contact.phone}}</td>
+            <td>{{contact.email}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+<script>
+    var module = angular.module('app', []);
+    module.controller('WebController', function ($scope, $http) {
+        var refresh = function () {
+            console.log("I got the data I requested");
+            $scope.contactlist = [
+                {
+                    id: 1,
+                    name: "2313",
+                    phone: 'asdasd',
+                    email: "qweqwe"
+                }
+            ];
+        };
+        refresh();
+
+        $scope.testLoad = function () {
+            console.log("Load contact");
+            refresh();
+        };
+    });
+</script>
+</body>
+</html>
