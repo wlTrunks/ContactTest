@@ -14,4 +14,6 @@ export interface ResponseProcessor {
     deleteAll(): Promise<string>
 
     deleteByName(name: string): Promise<string>
+
+    updateById(body: any): Promise<string>
 }

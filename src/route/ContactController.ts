@@ -20,6 +20,7 @@ class ContactController implements Controller {
         this.router.delete(`${this.path}/deleteAll`, this.deleteAll);
         this.router.delete(`${this.path}/deleteByName/:name`, this.deleteByName);
         this.router.put(`${this.path}/updateByName`, this.updateByName);
+        this.router.put(`${this.path}/updateById`, this.updateById);
         this.router.post(`${this.path}/add`, this.addContact);
     }
 
@@ -33,6 +34,11 @@ class ContactController implements Controller {
 
     updateByName = async (request: express.Request, response: express.Response) => {
         const answer = await this.processor.updateByName(request.body)
+        response.send(answer)
+    }
+
+    updateById = async (request: express.Request, response: express.Response) => {
+        const answer = await this.processor.updateById(request.body)
         response.send(answer)
     }
 

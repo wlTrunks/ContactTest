@@ -52,4 +52,17 @@ export class ResponseProcessorImpl implements ResponseProcessor {
             .where('name', name);
         return (deleted > 0) ? "Contact deleted" : "Contact not found";
     }
+
+    async updateById(body: any): Promise<string> {
+        try {
+            const contact = await Contact.query()
+                .patch({
+                    phone: body.phone,
+                    email: body.email
+                }).where('id', body.id)
+            return `Contact ${body.id} updated`
+        } catch (error) {
+            return error.toString()
+        }
+    }
 }

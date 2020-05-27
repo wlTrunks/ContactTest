@@ -25,6 +25,7 @@
             <td>
                 <button class="btn btn-primary" ng-click="loadContacts()">Load</button>
                 <button class="btn btn-primary" ng-click="saveContact()">Save</button>
+                <button class="btn btn-primary" ng-click="updateContact()">Update</button>
             </td>
         </tr>
         </tbody>
@@ -45,6 +46,7 @@
             <td>{{contact.phone}}</td>
             <td>{{contact.email}}</td>
             <td>
+                <button class="btn btn-warning" ng-click="editContact(contact)">Edit</button>
                 <button class="btn btn-danger" ng-click="removeContact(contact.id)">Remove</button>
             </td>
         </tr>
@@ -81,10 +83,25 @@
                 refresh();
             })
         };
+
         $scope.removeContact = function (id) {
             console.log(id);
             $http.delete(`${path}deleteById/` + id).then((response) => {
                 console.log(response.data);
+                refresh();
+            });
+        };
+
+        $scope.editContact = function (contact) {
+            console.log(contact);
+            $scope.contact = contact;
+        };
+
+        $scope.updateContact = function () {
+            console.log($scope.contact);
+            $http.put(`${path}updateById`, $scope.contact).then((response) => {
+                console.log(response.data);
+                $scope.contact = null;
                 refresh();
             });
         };
