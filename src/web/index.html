@@ -12,7 +12,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Phone</th>
             <th>Email</th>
@@ -21,41 +20,73 @@
         <tbody>
         <tr>
             <td><input class="form-control" ng-model="contact.name"></td>
-            <td><input class="form-control" ng-model="contact.email"></td>
             <td><input class="form-control" ng-model="contact.phone"></td>
+            <td><input class="form-control" ng-model="contact.email"></td>
             <td>
-                <button class="btn btn-primary" ng-click="testLoad()">Load</button>
+                <button class="btn btn-primary" ng-click="loadContacts()">Load</button>
+                <button class="btn btn-primary" ng-click="saveContact()">Save</button>
             </td>
         </tr>
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
         <tr ng-repeat="contact in contactlist">
             <td>{{contact.id}}</td>
             <td>{{contact.name}}</td>
             <td>{{contact.phone}}</td>
             <td>{{contact.email}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="removeContact(contact.id)">Remove</button>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
 <script>
-    var module = angular.module('app', []);
+    const module = angular.module('app', []);
     module.controller('WebController', function ($scope, $http) {
-        var refresh = function () {
-            console.log("I got the data I requested");
-            $scope.contactlist = [
-                {
-                    id: 1,
-                    name: "2313",
-                    phone: 'asdasd',
-                    email: "qweqwe"
-                }
-            ];
+        const path = '/api/contacts/';
+        const refresh = function () {
+            $http.get(`${path}all`).then(function (response) {
+                console.log("ALL Contacts" + response.data[0]);
+                response.data.forEach((c) => {
+                    console.log("Contact " + c.name);
+                });
+                $scope.contactlist = response.data;
+            }, function (error) {
+                console.log("Error" + error)
+            });
         };
         refresh();
 
-        $scope.testLoad = function () {
+        $scope.loadContacts = function () {
             console.log("Load contact");
             refresh();
+        };
+
+        $scope.saveContact = function () {
+            console.log($scope.contact);
+            $http.post(`${path}add`, $scope.contact).then((response) => {
+                console.log(response.data);
+                refresh();
+            })
+        };
+        $scope.removeContact = function (id) {
+            console.log(id);
+            $http.delete(`${path}deleteById/` + id).then((response) => {
+                console.log(response.data);
+                refresh();
+            });
         };
     });
 </script>

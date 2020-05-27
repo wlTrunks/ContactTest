@@ -1,8 +1,7 @@
 import * as express from 'express';
 import {IHttpService, IPromise} from 'angular';
-import angular = require("angular");
 // import {WebController} from "./web.controller";
-
+// import * as angular from "angular";
 // var app = angular.module('app', []).service('$exceptionHandler', function () {
 //     return function (error, cause) {
 //         console.log('ERROR caught by exception handler: ', error, cause)

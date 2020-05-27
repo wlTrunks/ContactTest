@@ -1,18 +1,35 @@
-// import {IScope} from "angular";
-// import {IHttpService, IPromise} from 'angular';
-//
-// export class WebController {
-//     static $inject = ['$scope', '$http']
-//
-//     private path: string = '/api/contacts/'
-//
-//     constructor(private $scope: IScope, private $http: ng.IHttpService, $window) {
-//         this.refresh();
-//     }
+import {IScope} from "angular";
+import {IHttpService, IPromise} from 'angular';
+import {Contact} from "../model/Contact";
+import {strict} from "assert";
 
-//     public refresh() {
-//         this.$http.get(`${this.path}all`).success(function (response) {
-//             this.$scope.contractlist = response;
-//         })
-//     }
-// }
+interface ContactsScope extends ng.IScope {
+    contactlist: Contact[]
+}
+
+
+export class WebController implements ng.IComponentController {
+    static $inject = ['$scope', '$http']
+
+    private path: string = '/api/contacts/'
+
+    constructor(private $scope: ContactsScope, private $http: ng.IHttpService) {
+        this.refresh();
+    }
+
+    public $onInit() {
+        console.log("I got the data I requested");
+        this.$scope.contactlist = [
+            new Contact
+        ];
+        this.refresh();
+    }
+
+
+    public refresh() {
+        this.$http.get(`${this.path}all`).then(function (success) {
+            console.log("refresh")
+        })
+    }
+}
+
