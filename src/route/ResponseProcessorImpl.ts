@@ -1,7 +1,8 @@
 import {ResponseProcessor} from "./ResponseProcessor";
 import {Contact} from "../model/Contact";
+import {injectable} from "inversify";
 
-
+@injectable()
 export class ResponseProcessorImpl implements ResponseProcessor {
     async getByName(name: string): Promise<Contact[]> {
         console.log(`id request name ${name}`)

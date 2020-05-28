@@ -1,14 +1,20 @@
+import {inject, injectable} from "inversify";
+import "reflect-metadata";
+import {Request, Response, Router} from 'express';
 import * as express from 'express';
 import {Controller} from "./controller.interface";
 import {ResponseProcessor} from "./ResponseProcessor";
+import {TYPES} from "../di/type";
 
+@injectable()
 class ContactController implements Controller {
     private path = '/contacts';
-    router = express.Router();
+    router = Router;
     private processor: ResponseProcessor
 
-    constructor(processor: ResponseProcessor) {
-        this.processor = processor
+    constructor(@inject(TYPES.ResponseProcessor) processor: ResponseProcessor) {
+        this.router = express.Router();
+        this.processor = processor;
         this.setRoutes();
     }
 
@@ -24,37 +30,37 @@ class ContactController implements Controller {
         this.router.post(`${this.path}/add`, this.addContact);
     }
 
-    getContactByName = async (request: express.Request, response: express.Response) => {
+    getContactByName = async (request: Request, response: Response) => {
         response.json(await this.processor.getByName(request.params.name))
     }
 
-    addContact = async (request: express.Request, response: express.Response) => {
+    addContact = async (request: Request, response: Response) => {
         response.send(await this.processor.addContact(request.body))
     }
 
-    updateByName = async (request: express.Request, response: express.Response) => {
+    updateByName = async (request: Request, response: Response) => {
         const answer = await this.processor.updateByName(request.body)
         response.send(answer)
     }
 
-    updateById = async (request: express.Request, response: express.Response) => {
+    updateById = async (request: Request, response: Response) => {
         const answer = await this.processor.updateById(request.body)
         response.send(answer)
     }
 
-    getAllContact = async (request: express.Request, response: express.Response) => {
+    getAllContact = async (request: Request, response: Response) => {
         response.send(await this.processor.getAllContact())
     }
 
-    deleteById = async (request: express.Request, response: express.Response) => {
+    deleteById = async (request: Request, response: Response) => {
         response.send(await this.processor.deleteById(request.params.id))
     }
 
-    deleteByName = async (request: express.Request, response: express.Response) => {
+    deleteByName = async (request: Request, response: Response) => {
         response.send(await this.processor.deleteByName(request.params.name))
     }
 
-    deleteAll = async (request: express.Request, response: express.Response) => {
+    deleteAll = async (request: Request, response: Response) => {
         response.send(await this.processor.deleteAll())
     }
 }

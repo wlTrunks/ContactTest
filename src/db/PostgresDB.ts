@@ -1,10 +1,15 @@
+import {inject, injectable} from "inversify";
+import "reflect-metadata";
 import {Model} from "objection";
 import * as Knex from "knex";
+import {DataBase} from "./DataBase";
+import {TYPES} from "../di/type";
 
-export class PostgresDB {
+@injectable()
+export class PostgresDB implements DataBase {
     private readonly db: Knex
 
-    constructor(db: Knex) {
+    constructor(@inject(TYPES.Knex) db: Knex) {
         this.db = db;
         this.createTable()
         this.bindModel()

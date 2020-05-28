@@ -1,19 +1,13 @@
-import ContactController from "./route/ContactController";
-import {PostgresDB} from "./db/PostgresDB";
-import {ContactApp} from "./ContactApp";
-import {ResponseProcessorImpl} from "./route/ResponseProcessorImpl";
-import db from './db/knex';
+import {ContactServer} from "./ContactServer";
+import container from "./di/inversify.config";
 import {setupWeb} from "./web/web";
+import {TYPES} from "./di/type";
 
 const port: number = 3000
 
-const app = new ContactApp(
-    new ContactController(new ResponseProcessorImpl()),
-    new PostgresDB(db),
-    port
-);
-setupWeb(app.express)
+const server = container.get<ContactServer>(TYPES.Server);
+setupWeb(server.express)
 
-app.listen()
+server.listen(port)
 
-export default app;
+export default server;
