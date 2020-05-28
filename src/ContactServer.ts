@@ -10,7 +10,7 @@ import {TYPES} from "./di/type";
 @injectable()
 export class ContactServer {
 
-    public express: Application;
+    public readonly express: Application;
 
     constructor(@inject(TYPES.RouteController) controller: Controller,
                 @inject(TYPES.DB) db: DataBase) {

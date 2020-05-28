@@ -9,7 +9,7 @@ import {TYPES} from "../di/type";
 @injectable()
 class ContactController implements Controller {
     private path = '/contacts';
-    router = Router;
+    public readonly router: Router;
     private processor: ResponseProcessor
 
     constructor(@inject(TYPES.ResponseProcessor) processor: ResponseProcessor) {
